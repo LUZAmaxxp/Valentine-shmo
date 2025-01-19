@@ -46,14 +46,30 @@
       }
 
       #userMessage {
+        border: 1px solid grey; /* Thin grey border */
         padding: 10px;
         width: 60%;
         margin-right: 10px;
+        border-radius: 20px; /* Optional: Add rounded corners */
       }
 
       #submitMessage {
+        background-color: #040c15; /* Background color */
+        color: white; /* White text */
         padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+
         cursor: pointer;
+      }
+
+      #submitMessage:hover {
+        background-color: #060c13;
+        box-shadow: 0 0 20px rgb(230, 17, 17);
+        transition-duration: 1000ms;
+        animation: fadeIn 2.5s ease-in-out forwards;
+        animation-duration: 1000ms;
+        scale: 1.1;
       }
 
       #displayMessageSection {
