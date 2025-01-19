@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentines Day</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .gradient-background {
+        background: rgb(255, 208, 229);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 208, 229, 1) 0%,
+          rgba(255, 232, 242, 1) 36%,
+          rgba(255, 255, 255, 1) 100%
+        );
+        @keyframes floatingHearts {
+          0% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+
+        .heart {
+          position: absolute;
+          width: 50px;
+          height: 50px;
+          background: url("./img/heart.png") no-repeat center center;
+          background-size: contain;
+          animation: floatingHearts 3s ease-in-out infinite;
+        }
+      }
+      #yesButton,
+      #noButton {
+        border-radius: 50px; /* Make buttons more rounded */
+      }
+
+      .bounce2 {
+        animation: bounce2 2s ease infinite;
+      }
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 1.5s ease forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes bounce2 {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-20px);
+        }
+        60% {
+          transform: translateY(-10px);
+        }
+      }
+      #loveSection {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1.5s ease, transform 1.5s ease;
+      }
+
+      #loveSection.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #loveSection:not(.hidden) {
+        display: flex;
+        flex-direction: row;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .hidden-section {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 1.5s ease, transform 1.5s ease;
+      }
+      .visible-section {
+        opacity: 1;
+        transform: translateY(5px);
+      }
+    </style>
+  </head>
+  <body class="gradient-background">
+    <div class="flex items-center justify-center h-screen">
+      <div class="flex flex-col items-center p-4">
+        <img
+          id="imageDisplay"
+          src="./img/image1.gif"
+          alt="Cute kitten with flowers"
+          class="rounded-md h-[300px]"
+          style="object-fit: cover"
+        />
+        <h2
+          id="valentineQuestion"
+          class="text-4xl font-bold italic text-[#bd1e59] my-4"
+        >
+          Can i be your Valentine Salma?
+        </h2>
+        <div class="flex gap-4 pt-[20px] items-center" id="responseButtons">
+          <button
+            id="yesButton"
+            class="bounce2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-[20px] font-medium disabled:pointer-events-none disabled:opacity-50 hover:bg-green-400 min-h-12 min-w-[75px] px-4 py-2 bg-green-500 text-white transition"
+          >
+            Yes
+          </button>
+          <button
+            id="noButton"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-[20px] font-medium transition disabled:pointer-events-none disabled:opacity-50 hover:bg-red-700 h-12 min-w-[75px] w-auto px-4 py-2 bg-red-500 text-white"
+          >
+            No
+          </button>
+        </div>
+        <div class="my-10">
+          <p
+            id="notify"
+            class="text-4xl font-bold italic text-[#bd1e59] my-4"
+          ></p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="loveSection"
+      class="hidden flex justify-center items-center h-screen gap-12 p-8"
+    >
+      <div
+        id="photoContainer"
+        class="w-[300px] h-[300px] overflow-hidden rounded-lg shadow-lg relative"
+      >
+        <img
+          src="./img/salma3.jpeg"
+          alt="Memorable Moment"
+          class="absolute w-full h-full object-cover opacity-100 transition-opacity duration-1000"
+        />
+        <img
+          src="./img/salma6.jpeg"
+          alt="Memorable Moment"
+          class="absolute w-full h-full object-cover opacity-0 transition-opacity duration-1000"
+        />
+        <img
+          src="./img/salma.jpeg"
+          alt="Memorable Moment"
+          class="absolute w-full h-full object-cover opacity-0 transition-opacity duration-1000"
+        />
+      </div>
+
+      <div class="max-w-lg">
+        <p class="text-2xl font-semibold text-[#bd1e59] leading-relaxed">
+          My dearest, Every moment with you is magic. Your smile lights up my
+          world, and your heart fills mine with endless joy. I love you more
+          than words can ever say. Happy Valentine's Day! ❤️
+        </p>
+      </div>
+    </div>
+
+    <script type="module">
+      import confetti from "https://cdn.skypack.dev/canvas-confetti";
+      const yesButton = document.getElementById("yesButton");
+      const noButton = document.getElementById("noButton");
+      const imageDisplay = document.getElementById("imageDisplay");
+      const valentineQuestion = document.getElementById("valentineQuestion");
+      const responseButtons = document.getElementById("responseButtons");
+
+      let noClickCount = 0;
+      let buttonHeight = 48; // Starting height in pixels
+      let buttonWidth = 80;
+      let fontSize = 20; // Starting font size in pixels
+      const imagePaths = [
+        "./img/image1.gif",
+        "./img/image2.gif",
+        "./img/image3.gif",
+        "./img/image4.gif",
+        "./img/image5.gif",
+        "./img/image6.gif",
+        "./img/image7.gif",
+        "./img/a.gif",
+      ];
+
+      noButton.addEventListener("click", function () {
+        if (noClickCount < 1000) {
+          noClickCount++;
+
+          buttonHeight += 35; // Increase height by 5px on each click
+          buttonWidth += 35;
+          fontSize += 25; // Increase font size by 1px on each click
+          yesButton.style.height = `${buttonHeight}px`; // Update button height
+          yesButton.style.width = `${buttonWidth}px`;
+          yesButton.style.fontSize = `${fontSize}px`; // Update font size
+          if (noClickCount < 8) {
+            imageDisplay.src = imagePaths[noClickCount];
+            noButton.textContent = [
+              "No",
+              "Are you sure?",
+              "Ahyata",
+              "Don't do this to me :(",
+              "You're breaking my heart  (9ch 9ch z3ma thres)",
+              ":)",
+              ":)",
+              ":)",
+            ][noClickCount];
+          } else if (noClickCount >= 6) {
+            noButton.textContent = ":)";
+          }
+
+          // Move the "No" button to a random position
+          const screenWidth = window.innerWidth - noButton.clientWidth;
+          const screenHeight = window.innerHeight - noButton.clientHeight;
+          const randomX = Math.floor(Math.random() * screenWidth);
+          const randomY = Math.floor(Math.random() * screenHeight);
+          noButton.style.position = "absolute"; // Set position to absolute
+          noButton.style.left = `${randomX}px`;
+          noButton.style.top = `${randomY}px`;
+        }
+      });
+
+      yesButton.addEventListener("click", () => {
+        const notify = document.getElementById("notify");
+
+        notify.innerText = "Scroll Down Please :)";
+        notify.style.cssText = `
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: larger;
+  `;
+        imageDisplay.src = "./img/image7.gif"; // Change to image7.gif
+        valentineQuestion.textContent = "Yayyy!! :3"; // Change the question text
+        responseButtons.style.display = "none"; // Hide both buttons
+        confetti();
+
+        setTimeout(() => {
+          const loveSection = document.getElementById("loveSection");
+          loveSection.classList.remove("hidden"); // Reveal the section
+
+          const photos = document.querySelectorAll("#photoContainer img");
+          let photoIndex = 0;
+
+          setInterval(() => {
+            photos.forEach((photo, index) => {
+              photo.style.opacity = index === photoIndex ? "1" : "0"; // Switch photos
+            });
+            photoIndex = (photoIndex + 1) % photos.length;
+          }, 2000); // Change photo every 2 seconds
+        }, 500);
+      });
+      // Trigger animation when the section comes into view
+      const loveSectionObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const loveSection = document.getElementById("loveSection");
+              loveSection.querySelector("img").classList.add("fade-in");
+              loveSection.querySelector("p").classList.add("fade-in");
+            }
+          });
+        },
+        {
+          threshold: 0.8, // Trigger when 10% of the section is visible
+        }
+      );
+
+      // Start observing
+
+      loveSectionObserver.observe(document.getElementById("loveSection"));
+    </script>
+  </body>
+</html>
