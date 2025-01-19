@@ -14,39 +14,42 @@
           rgba(255, 232, 242, 1) 36%,
           rgba(255, 255, 255, 1) 100%
         );
-        @keyframes floatingHearts {
-          0% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-          100% {
-            transform: translateY(0);
-          }
-        }
+      }
 
-        .heart {
-          position: absolute;
-          width: 50px;
-          height: 50px;
-          background: url("./img/heart.png") no-repeat center center;
-          background-size: contain;
-          animation: floatingHearts 3s ease-in-out infinite;
+      @keyframes floatingHearts {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0);
         }
       }
+
+      .heart {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        background: url("./img/heart.png") no-repeat center center;
+        background-size: contain;
+        animation: floatingHearts 3s ease-in-out infinite;
+      }
+
       #yesButton,
       #noButton {
-        border-radius: 50px; /* Make buttons more rounded */
+        border-radius: 50px;
       }
 
       .bounce2 {
         animation: bounce2 2s ease infinite;
       }
+
       .fade-in {
         opacity: 0;
         transform: translateY(20px);
-        animation: fadeIn 1.5s ease forwards;
+        animation: fadeIn 2.5s ease-in-out forwards;
       }
 
       @keyframes fadeIn {
@@ -71,6 +74,7 @@
           transform: translateY(-10px);
         }
       }
+
       #loveSection {
         display: none;
         opacity: 0;
@@ -89,30 +93,98 @@
         opacity: 1;
         transform: translateY(0);
       }
+
       .hidden-section {
         opacity: 0;
         transform: translateY(50px);
         transition: opacity 1.5s ease, transform 1.5s ease;
       }
+
       .visible-section {
         opacity: 1;
         transform: translateY(5px);
       }
+
+      @media (max-width: 768px) {
+        #loveSection {
+          flex-direction: column !important;
+          gap: 2rem !important;
+          padding: 1rem !important;
+        }
+
+        #photoContainer {
+          width: 100% !important;
+          max-width: 300px !important;
+          height: 300px !important;
+        }
+
+        .text-4xl {
+          font-size: 1.75rem !important;
+          text-align: center;
+        }
+
+        .text-2xl {
+          font-size: 1.25rem !important;
+          text-align: center;
+          padding: 0 1rem;
+        }
+
+        #imageDisplay {
+          height: 200px !important;
+          width: auto !important;
+        }
+
+        #valentineQuestion {
+          font-size: 1.5rem !important;
+          text-align: center;
+          padding: 0 1rem;
+        }
+
+        #responseButtons {
+          flex-direction: row !important;
+          gap: 1rem !important;
+        }
+
+        #yesButton,
+        #noButton {
+          min-width: 60px !important;
+          height: auto !important;
+          padding: 0.5rem 1rem !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .flex.items-center.justify-center.h-screen {
+          padding: 1rem;
+          min-height: 100vh;
+        }
+
+        #loveSection {
+          min-height: 100vh;
+        }
+
+        .text-4xl {
+          font-size: 1.5rem !important;
+        }
+
+        #valentineQuestion {
+          font-size: 1.25rem !important;
+        }
+      }
     </style>
   </head>
   <body class="gradient-background">
-    <div class="flex items-center justify-center h-screen">
-      <div class="flex flex-col items-center p-4">
+    <div class="flex items-center justify-center min-h-screen w-full px-4">
+      <div class="flex flex-col items-center p-4 w-full max-w-xl">
         <img
           id="imageDisplay"
           src="./img/image1.gif"
           alt="Cute kitten with flowers"
-          class="rounded-md h-[300px]"
-          style="object-fit: cover"
+          class="rounded-md w-full max-w-[300px] h-auto object-cover"
         />
         <h2
           id="valentineQuestion"
-          class="text-4xl font-bold italic text-[#bd1e59] my-4"
+          class="text-4xl font-bold italic text-[#bd1e59] my-4 text-center"
         >
           Can i be your Valentine Salma?
         </h2>
@@ -133,7 +205,7 @@
         <div class="my-10">
           <p
             id="notify"
-            class="text-4xl font-bold italic text-[#bd1e59] my-4"
+            class="text-4xl font-bold italic text-[#bd1e59] my-4 text-center"
           ></p>
         </div>
       </div>
@@ -141,11 +213,11 @@
 
     <div
       id="loveSection"
-      class="hidden flex justify-center items-center h-screen gap-12 p-8"
+      class="hidden flex justify-center items-center min-h-screen w-full px-4 py-8 gap-4 md:gap-12"
     >
       <div
         id="photoContainer"
-        class="w-[300px] h-[300px] overflow-hidden rounded-lg shadow-lg relative"
+        class="w-full max-w-[300px] h-[300px] overflow-hidden rounded-lg shadow-lg relative"
       >
         <img
           src="./img/salma3.jpeg"
@@ -164,8 +236,10 @@
         />
       </div>
 
-      <div class="max-w-lg">
-        <p class="text-2xl font-semibold text-[#bd1e59] leading-relaxed">
+      <div class="w-full max-w-lg px-4">
+        <p
+          class="text-xl md:text-2xl font-semibold text-[#bd1e59] leading-relaxed text-center md:text-left"
+        >
           My dearest, Every moment with you is magic. Your smile lights up my
           world, and your heart fills mine with endless joy. I love you more
           than words can ever say. Happy Valentine's Day! ❤️
@@ -182,9 +256,9 @@
       const responseButtons = document.getElementById("responseButtons");
 
       let noClickCount = 0;
-      let buttonHeight = 48; // Starting height in pixels
+      let buttonHeight = 48;
       let buttonWidth = 80;
-      let fontSize = 20; // Starting font size in pixels
+      let fontSize = 20;
       const imagePaths = [
         "./img/image1.gif",
         "./img/image2.gif",
@@ -200,12 +274,12 @@
         if (noClickCount < 1000) {
           noClickCount++;
 
-          buttonHeight += 35; // Increase height by 5px on each click
+          buttonHeight += 35;
           buttonWidth += 35;
-          fontSize += 25; // Increase font size by 1px on each click
-          yesButton.style.height = `${buttonHeight}px`; // Update button height
+          fontSize += 25;
+          yesButton.style.height = `${buttonHeight}px`;
           yesButton.style.width = `${buttonWidth}px`;
-          yesButton.style.fontSize = `${fontSize}px`; // Update font size
+          yesButton.style.fontSize = `${fontSize}px`;
           if (noClickCount < 8) {
             imageDisplay.src = imagePaths[noClickCount];
             noButton.textContent = [
@@ -222,12 +296,11 @@
             noButton.textContent = ":)";
           }
 
-          // Move the "No" button to a random position
           const screenWidth = window.innerWidth - noButton.clientWidth;
           const screenHeight = window.innerHeight - noButton.clientHeight;
           const randomX = Math.floor(Math.random() * screenWidth);
           const randomY = Math.floor(Math.random() * screenHeight);
-          noButton.style.position = "absolute"; // Set position to absolute
+          noButton.style.position = "absolute";
           noButton.style.left = `${randomX}px`;
           noButton.style.top = `${randomY}px`;
         }
@@ -238,34 +311,34 @@
 
         notify.innerText = "Scroll Down Please :)";
         notify.style.cssText = `
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: larger;
-  `;
-        imageDisplay.src = "./img/image7.gif"; // Change to image7.gif
-        valentineQuestion.textContent = "Yayyy!! :3"; // Change the question text
-        responseButtons.style.display = "none"; // Hide both buttons
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          font-weight: bold;
+          font-size: larger;
+        `;
+        imageDisplay.src = "./img/image7.gif";
+        valentineQuestion.textContent = "Yayyy!! :3";
+        responseButtons.style.display = "none";
         confetti();
 
         setTimeout(() => {
           const loveSection = document.getElementById("loveSection");
-          loveSection.classList.remove("hidden"); // Reveal the section
+          loveSection.classList.remove("hidden");
 
           const photos = document.querySelectorAll("#photoContainer img");
           let photoIndex = 0;
 
           setInterval(() => {
             photos.forEach((photo, index) => {
-              photo.style.opacity = index === photoIndex ? "1" : "0"; // Switch photos
+              photo.style.opacity = index === photoIndex ? "1" : "0";
             });
             photoIndex = (photoIndex + 1) % photos.length;
-          }, 2000); // Change photo every 2 seconds
+          }, 2000);
         }, 500);
       });
-      // Trigger animation when the section comes into view
+
       const loveSectionObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -277,11 +350,9 @@
           });
         },
         {
-          threshold: 0.8, // Trigger when 10% of the section is visible
+          threshold: 0.4,
         }
       );
-
-      // Start observing
 
       loveSectionObserver.observe(document.getElementById("loveSection"));
     </script>
